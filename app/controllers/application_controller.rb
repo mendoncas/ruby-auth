@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :authorized
+  before_action :authorized, only: [:is_admin]
 
   def encode_token(payload)
     JWT.encode(payload, "meusegredo")
@@ -27,11 +27,26 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def new_user
+    @user = User.create(user_params)
+  end
+
+  def is_admin
+    if decoded_token
+      user_id = decoded_token[0]["user_id"]
+      @admin = Admin.find_by(user: user_id)
+    end
+  end
+
   def logged_in?
     !!logged_in_user
   end
 
   def authorized
     render json: { message: "faça seu login" }, status: :unauthorized unless logged_in?
+  end
+
+  def user_params
+    params.permit(:username, :password, :age, :admin)
   end
 end

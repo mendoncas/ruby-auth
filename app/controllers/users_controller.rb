@@ -1,17 +1,17 @@
 class UsersController < ApplicationController
-  before_action :authorized, only: [:auto_login]
+  before_action :authorized, only: [:auto_login, :destroy]
 
   def index
     render json: User.all
   end
 
-  def create
-    @user = User.create(user_params)
-    if @user.valid?
-      token = encode_token({ user_id: @user.id })
-      render json: { user: @user, token: token }
+  def destroy
+    if is_admin
+      @user = User.find_by(id: params[:id])
+      render json: { user: @user }
+      User.destroy(@user.id)
     else
-      render json: { error: "invalid username" }
+      render json: { error: "você não tem permissão para isso" }
     end
   end
 
@@ -28,11 +28,5 @@ class UsersController < ApplicationController
 
   def auto_login
     render json: @user
-  end
-
-  private
-
-  def user_params
-    params.permit(:username, :password, :age)
   end
 end
