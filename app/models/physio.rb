@@ -1,0 +1,2 @@
+class Physio < ApplicationRecord
+end
