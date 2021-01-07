@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
   before_action :authorized, only: [:is_admin]
+  before_action :require_admin, only: [:show]
 
   def encode_token(payload)
     JWT.encode(payload, "meusegredo")
@@ -35,6 +36,12 @@ class ApplicationController < ActionController::API
     if decoded_token
       user_id = decoded_token[0]["user_id"]
       @admin = Admin.find_by(user: user_id)
+    end
+  end
+
+  def require_admin
+    if !is_admin
+      render json: { error: "você não tem permissão pra isso" }
     end
   end
 

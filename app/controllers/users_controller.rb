@@ -1,18 +1,14 @@
 class UsersController < ApplicationController
-  before_action :authorized, only: [:auto_login, :destroy]
+  before_action :authorized, only: [:auto_login]
 
-  def index
+  def show
     render json: User.all
   end
 
   def destroy
-    if is_admin
-      @user = User.find_by(id: params[:id])
-      render json: { user: @user }
-      User.destroy(@user.id)
-    else
-      render json: { error: "você não tem permissão para isso" }
-    end
+    @user = User.find_by(id: params[:id])
+    render json: { user: @user }
+    User.destroy(@user.id)
   end
 
   def login
