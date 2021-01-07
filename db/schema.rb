@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_222128) do
+ActiveRecord::Schema.define(version: 2021_01_07_123158) do
 
   create_table "admins", force: :cascade do |t|
     t.integer "user_id"
@@ -27,12 +27,30 @@ ActiveRecord::Schema.define(version: 2021_01_06_222128) do
     t.index ["user_id"], name: "index_defaults_on_user_id"
   end
 
+  create_table "links", force: :cascade do |t|
+    t.boolean "is_active"
+    t.integer "physio_id"
+    t.integer "default_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["default_id"], name: "index_links_on_default_id"
+    t.index ["physio_id"], name: "index_links_on_physio_id"
+  end
+
   create_table "physios", force: :cascade do |t|
     t.string "crefito"
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_physios_on_user_id"
+  end
+
+  create_table "tokens", force: :cascade do |t|
+    t.integer "physio_id"
+    t.string "token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["physio_id"], name: "index_tokens_on_physio_id"
   end
 
   create_table "users", force: :cascade do |t|

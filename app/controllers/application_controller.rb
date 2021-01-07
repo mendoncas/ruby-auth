@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   before_action :authorized, only: [:is_admin]
-  before_action :require_admin, only: [:show]
+  # before_action :require_admin, only: [:show]
 
   def encode_token(payload)
     JWT.encode(payload, "meusegredo")
