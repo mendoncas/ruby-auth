@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_07_123158) do
+ActiveRecord::Schema.define(version: 2021_01_08_142132) do
 
   create_table "admins", force: :cascade do |t|
     t.integer "user_id"
@@ -25,6 +25,23 @@ ActiveRecord::Schema.define(version: 2021_01_07_123158) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_defaults_on_user_id"
+  end
+
+  create_table "exercise_types", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "exercises", force: :cascade do |t|
+    t.integer "exercise_type_id"
+    t.string "name"
+    t.string "video_directory"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_type_id"], name: "index_exercises_on_exercise_type_id"
   end
 
   create_table "links", force: :cascade do |t|
