@@ -18,9 +18,15 @@ class DefaultsController < ApplicationController
   end
 
   def generate_link
-    token = params[:string]
-    decoded = JWT.decode(token, "meusegredo", true, algorithm: "HS256")
-    render json: decoded
+    @default = find_default
+    decoded = JWT.decode(params[:string], "meusegredo", true, algorithm: "HS256")
+
+    link = Link.create(physio_id: decoded[0]["physio"], default: @default, is_active: true)
+    if Link.find_by(default: @default, is_active: true)
+      render json: { error: "esse usuário já está ligado a um fisioterapeuta" }
+      link.destroy
+    end
+    # render json: link
   end
 
   private

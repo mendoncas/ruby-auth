@@ -1,16 +1,18 @@
 Rails.application.routes.draw do
-  resources :users
+  delete "/users", to: "users#destroy"
   post "/login", to: "users#login"
   get "/auto_login", to: "users#auto_login"
+  get "/users/index", to: "users#show"
 
-  resources :admins
-  # post "/admin/create", to: "admin#create"
+  post "/admin", to: "admin#create"
 
-  resources :defaults
+  post "/defaults/gen_link", to: "defaults#generate_link"
+  get "/defaults/index", to: "defaults#show"
+  post "defaults", to: "defaults#create"
 
-  get "physios/index", to: "physios#show"
-  get "physios/gen", to: "physios#generate_token"
+  get "/physios/index", to: "physios#show"
+  get "/physios/gen", to: "physios#generate_token"
+  post "/physios", to: "physios#create"
 
-  #TODO
-  # TERMINAR DE FAZER O LINK FUNCIONAR (CONTROLLER DEFAULT)
+  get "/links/index", to: "links#show"
 end
