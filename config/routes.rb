@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :user do
     post "/login", to: "users#login"
+    #adicionar /:string??
     post "/link", to: "links#create" #cria link entre terapeuta e paciente. requer token gerado pelo fisio
     get "/index", to: "users#show"
     get "/links", to: "links#find_links"
@@ -19,11 +20,11 @@ Rails.application.routes.draw do
 
   namespace :therapist do
     post "/", to: "physios#create" #cria usuário fisioterapeuta
-    post "/serie", to: "exercise_series#create" #cria uma série de exercícios
-    post "/routine/:id", to: "routines#create" #cria uma rotina de exercícios com user_id
+    post "/serie/:id", to: "exercise_series#create" #cria uma série de exercícios
+    post "/routine/:id", to: "routines#create" #cria uma rotina de exercícios com default_id (id do paciente)
     get "/token", to: "tokens#create" #gera um jwt para o paciente
     get "/index", to: "physios#show"
-    get "/routine", to: "routines#get" #parei aqui
+    get "/routine", to: "routines#show" #fisio recebe todas as rotinas que criou, paciente recebe sua rotina com os exercícios
   end
 
   #TODO

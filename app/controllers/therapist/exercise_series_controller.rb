@@ -1,10 +1,11 @@
 class Therapist::ExerciseSeriesController < ApiController
   def create
     @exercise = Exercise.find_by_name(params[:name])
-    @link = Link.find_by_id(params[:id])
+    @link = find_physio.links.find_by_default_id(params[:id])
+    @routine = Routine.find_by_link_id(@link.id)
 
-    if @exercise.valid && @link.valid?
-      @serie = ExerciseSerie.create(exercise_id: @exercise.id, sets: params[:sets], reps: params[:reps], link_id: @link.id)
+    if @link && @exercise
+      @serie = ExerciseSerie.create(exercise_id: @exercise.id, sets: params[:sets], reps: params[:reps], routine_id: @routine.id)
       if @serie.valid?
         render json: @serie
       else
@@ -12,7 +13,7 @@ class Therapist::ExerciseSeriesController < ApiController
         render json: "parâmetros inválidos"
       end
     else
-      render json: "parâmetros inválidos"
+      render json: { error: "parâmetros inválidos. link ou exercício inexistente" }
     end
   end
 end

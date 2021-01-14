@@ -12,13 +12,13 @@ class User::UsersController < ApiController
   end
 
   def login
-    @user = User.find_by(username: params[:username])
+    @user = User.find_by_username(params[:username])
 
     if @user && @user.authenticate(params[:password])
       token = encode_token({ user_id: @user.id })
       render json: { user: @user, token: token }
     else
-      render json: { error: "invalid username or password" }
+      render json: { error: "invalid username or password", user: @user }
     end
   end
 

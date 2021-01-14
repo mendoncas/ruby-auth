@@ -1,5 +1,4 @@
 class ApiController < ApplicationController
-
   def find_default
     if decoded_token
       user_id = decoded_token[0]["user_id"]
@@ -20,7 +19,7 @@ class ApiController < ApplicationController
     end
   end
 
-  def require_admin
+  def require_adm
     if !find_adm
       render json: { error: "você não tem permissão pra isso" }
     end
