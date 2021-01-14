@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_13_141958) do
+ActiveRecord::Schema.define(version: 2021_01_14_135429) do
 
   create_table "admins", force: :cascade do |t|
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_admins_on_user_id"
+  end
+
+  create_table "days", force: :cascade do |t|
+    t.integer "status"
+    t.date "date"
+    t.integer "routine_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["routine_id"], name: "index_days_on_routine_id"
   end
 
   create_table "defaults", force: :cascade do |t|

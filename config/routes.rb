@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     get "/index", to: "defaults#show"
   end
 
+  #criar um namespace: routine?
+
   namespace :therapist do
     post "/", to: "physios#create" #cria usuário fisioterapeuta
     post "/serie/:id", to: "exercise_series#create" #cria uma série de exercícios

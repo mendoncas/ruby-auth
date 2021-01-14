@@ -6,12 +6,9 @@ lucas = User.create(username: "lucas", password: "1234")
 lulu = User.create(username: "lulu", password: "1234")
 alongamento = ExerciseType.create(name: "alongamento", description: "esticando")
 
-fisioterapeuta = Physio.create(user: lulu, crefito: "1234") 
+fisioterapeuta = Physio.create(user: lulu, crefito: "1234")
 paciente = Default.create(user: lucas, description: "kkkk")
 link = Link.create(physio: fisioterapeuta, default: paciente, is_active: true)
 
 exercicio = Exercise.create(name: "alongamento de ombro", description: "ai meu ombro", exercise_type: alongamento)
-rotina = Routine.create(beginning:"25/01/2021", end:"27/01/2021", link_id: link.id)
 Admin.create(user: ricardo)
-
-serie = ExerciseSerie.create(sets: 3, reps: 5, exercise_id: 1, routine_id: rotina.id)
