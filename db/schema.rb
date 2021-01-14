@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_08_142132) do
+ActiveRecord::Schema.define(version: 2021_01_13_141958) do
 
   create_table "admins", force: :cascade do |t|
     t.integer "user_id"
@@ -25,6 +25,17 @@ ActiveRecord::Schema.define(version: 2021_01_08_142132) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_defaults_on_user_id"
+  end
+
+  create_table "exercise_series", force: :cascade do |t|
+    t.integer "sets"
+    t.integer "reps"
+    t.integer "exercise_id"
+    t.integer "routine_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id"], name: "index_exercise_series_on_exercise_id"
+    t.index ["routine_id"], name: "index_exercise_series_on_routine_id"
   end
 
   create_table "exercise_types", force: :cascade do |t|
@@ -62,6 +73,15 @@ ActiveRecord::Schema.define(version: 2021_01_08_142132) do
     t.index ["user_id"], name: "index_physios_on_user_id"
   end
 
+  create_table "routines", force: :cascade do |t|
+    t.date "beginning"
+    t.date "end"
+    t.integer "link_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["link_id"], name: "index_routines_on_link_id"
+  end
+
   create_table "tokens", force: :cascade do |t|
     t.integer "physio_id"
     t.string "token"
@@ -77,4 +97,5 @@ ActiveRecord::Schema.define(version: 2021_01_08_142132) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "exercise_series", "exercises"
 end

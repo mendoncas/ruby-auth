@@ -1,12 +1,17 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-ricardo = User.create(username: "ricardo", password: "irru")
-lucas = User.create(username: "lucas", password: "irru")
-lulu = User.create(username: "lulu", password: "irru")
+ricardo = User.create(username: "ricardo", password: "1234")
+lucas = User.create(username: "lucas", password: "1234")
+lulu = User.create(username: "lulu", password: "1234")
 alongamento = ExerciseType.create(name: "alongamento", description: "esticando")
 
-Exercise.create(name: "alongamento de ombro", description: "ai meu ombro", exercise_type: alongamento)
+fisioterapeuta = Physio.create(user: lulu, crefito: "1234") 
+paciente = Default.create(user: lucas, description: "kkkk")
+link = Link.create(physio: fisioterapeuta, default: paciente, is_active: true)
+
+exercicio = Exercise.create(name: "alongamento de ombro", description: "ai meu ombro", exercise_type: alongamento)
+rotina = Routine.create(beginning:"25/01/2021", end:"27/01/2021", link_id: link.id)
 Admin.create(user: ricardo)
-Physio.create(user: lulu, crefito: "1234")
-Default.create(user: lucas, description: "kkkk")
+
+serie = ExerciseSerie.create(sets: 3, reps: 5, exercise_id: 1, routine_id: rotina.id)

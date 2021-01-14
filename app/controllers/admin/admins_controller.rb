@@ -1,4 +1,4 @@
-class AdminsController < ApplicationController
+class Admin::AdminsController < ApiController
   def show
     render json: Admin.all
   end

@@ -1,20 +1,30 @@
 Rails.application.routes.draw do
-  delete "/users", to: "users#destroy"
-  post "/login", to: "users#login"
-  get "/auto_login", to: "users#auto_login"
-  get "/users/index", to: "users#show"
+  namespace :user do
+    post "/login", to: "users#login"
+    post "/link", to: "links#create" #cria link entre terapeuta e paciente. requer token gerado pelo fisio
+    get "/index", to: "users#show"
+    get "/links", to: "links#find_links"
+    get "/", to: "users#auto_login" #retorna registro do usuário logado
+    delete "/", to: "users#destroy"
+  end
 
-  post "/admin", to: "admin#create"
+  namespace :admin do
+    post "/", to: "admins#create" #cria usuário adm
+  end
 
-  post "/defaults/gen_link", to: "defaults#generate_link"
-  get "/defaults/index", to: "defaults#show"
-  post "defaults", to: "defaults#create"
+  namespace :patient do
+    post "/", to: "defaults#create" #cria usuário paciente
+    get "/index", to: "defaults#show"
+  end
 
-  get "/physios/index", to: "physios#show"
-  get "/physios/gen", to: "physios#generate_token"
-  post "/physios", to: "physios#create"
-
-  get "/links/index", to: "links#show"
+  namespace :therapist do
+    post "/", to: "physios#create" #cria usuário fisioterapeuta
+    post "/serie", to: "exercise_series#create" #cria uma série de exercícios
+    post "/routine/:id", to: "routines#create" #cria uma rotina de exercícios com user_id
+    get "/token", to: "tokens#create" #gera um jwt para o paciente
+    get "/index", to: "physios#show"
+    get "/routine", to: "routines#get" #parei aqui
+  end
 
   #TODO
 
@@ -24,7 +34,7 @@ Rails.application.routes.draw do
   ##FISIO CONSEGUE CRIAR UMA SÉRIE COM BASE NOS EXERCÍCIOS, FORNECENDO SETS E REPS
   ##UMA SÉRIE PERTENCE A UMA ROTINE (ROUTINE HAS_MANY SERIES)
   ##UMA ROUTINE POSSUI VÁRIOS ROUTINE_DAYS QUE PODEM ESTAR COMPLETOS, INCOMPLETOS OU EM PROGRESSO
-  ##CADA EXERCISE SERIE EM UM ROUTINE DAY POSSUI UM FEEDBACK, ESCRITO PELO USUÁRIO
+  ##CADA EXERCISE SERIE EM UM ROUTINE DAY POSSUI UM FEEDBACK, ESCRITO PELO USUÁRIO (CONFIRMAR ISSO)
 
   #O USUÁRIO PODE INTERAGIR COM A ROTINA CRIADA
 
@@ -35,6 +45,5 @@ Rails.application.routes.draw do
   ##O USUARIO FINALIZA A ROTINA
   ##ROUTINE_DAY_STATUS: CONCLUÍDO
 
-  #usar polimorfismo nos usuários
   #adicionar tempo de expiração pra os tokens de autenticação
 end

@@ -32,19 +32,6 @@ class ApplicationController < ActionController::API
     @user = User.create(user_params)
   end
 
-  def is_admin
-    if decoded_token
-      user_id = decoded_token[0]["user_id"]
-      @admin = Admin.find_by(user: user_id)
-    end
-  end
-
-  def require_admin
-    if !is_admin
-      render json: { error: "você não tem permissão pra isso" }
-    end
-  end
-
   def logged_in?
     !!logged_in_user
   end
