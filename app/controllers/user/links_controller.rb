@@ -3,7 +3,17 @@ class User::LinksController < ApiController
   before_action :require_physio, only: :find_links
 
   def show
-    render json: Link.all
+    # render json: Link.all
+    @current = find_physio
+    if @current
+      render json: {current: @current, found: Link.where(physio_id: @current.id)}
+
+    else
+      @current = find_default
+      if @current
+        render json: {current: @current, found: Link.where(default_id: @current.id)}
+      end
+    end
   end
 
   def find_links #para o fisioterapeuta, retorna todos as ligações com pacientes
@@ -11,15 +21,17 @@ class User::LinksController < ApiController
     render json: {current: @current, links: Link.all, found: Link.where(physio_id: @current.id)}
   end
 
-  def create
+  def create #usuário cria um link com o token do fisio. espera um json {"string": token}
     @default = find_default
     decoded = JWT.decode(params[:string], "meusegredo", true, algorithm: "HS256")
 
     if Link.find_by(default: @default, is_active: true)
       render json: { error: "esse usuário já está ligado a um fisioterapeuta" }
     else
-      link = Link.create(physio_id: decoded[0]["physio"], default: @default, is_active: true)
-      render json: link
+      physio = Physio.find_by_id(decoded[0]["physio"])
+      link = Link.create(physio_id: physio.id, default: @default, is_active: true)
+     
+      render json: {success: "ligação cirada com terapeuta #{physio.user.username}",link: link}
     end
   end
 end

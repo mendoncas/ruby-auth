@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     #adicionar /:string??
     post "/link", to: "links#create" #cria link entre terapeuta e paciente. requer token gerado pelo fisio
     get "/index", to: "users#show"
-    get "/links", to: "links#find_links"
+    get "/links", to: "links#show"
     get "/", to: "users#auto_login" #retorna registro do usuário logado
     delete "/", to: "users#destroy"
   end
