@@ -1,6 +1,6 @@
 class Therapist::ExerciseSeriesController < ApiController
   def create
-    @exercise = Exercise.find_by_name(params[:name])
+    @exercise = Exercise.find_by_name(params[:exercise])
     @link = find_physio.links.find_by_default_id(params[:id])
     @routine = Routine.find_by_link_id(@link.id)
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_14_135429) do
+ActiveRecord::Schema.define(version: 2021_01_18_124857) do
 
   create_table "admins", force: :cascade do |t|
     t.integer "user_id"
@@ -62,6 +62,18 @@ ActiveRecord::Schema.define(version: 2021_01_14_135429) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_type_id"], name: "index_exercises_on_exercise_type_id"
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.integer "pain"
+    t.integer "effort"
+    t.string "observation"
+    t.integer "exercise_serie_id"
+    t.integer "routine_day_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_serie_id"], name: "index_feedbacks_on_exercise_serie_id"
+    t.index ["routine_day_id"], name: "index_feedbacks_on_routine_day_id"
   end
 
   create_table "links", force: :cascade do |t|

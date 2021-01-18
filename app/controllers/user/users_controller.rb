@@ -8,7 +8,7 @@ class User::UsersController < ApiController
   def destroy
     @user = User.find_by(id: params[:id])
     render json: { user: @user }
-    User.destroy(@user.id)
+    @user.destroy
   end
 
   def login
@@ -18,7 +18,7 @@ class User::UsersController < ApiController
       token = encode_token({ user_id: @user.id })
       render json: { user: @user, token: token }
     else
-      render json: { error: "invalid username or password", user: @user }
+      render json: { error: "invalid username or password", params: params }
     end
   end
 
