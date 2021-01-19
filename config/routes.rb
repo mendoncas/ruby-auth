@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :user, path: "/" do
     post "/login", to: "users#login"
     get "/index", to: "users#show"
+    get "/links", to: "links#show"
     get "/", to: "users#auto_login" #retorna registro do usuário logado
     delete "/", to: "users#destroy"
   end
