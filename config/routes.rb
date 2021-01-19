@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   namespace :user, path: "/" do
     post "/login", to: "users#login"
-    #adicionar /:string??
     get "/index", to: "users#show"
     get "/", to: "users#auto_login" #retorna registro do usuário logado
     delete "/", to: "users#destroy"
@@ -19,7 +18,9 @@ Rails.application.routes.draw do
   namespace :routine do
     post "/:id", to: "routines#create" #cria uma rotina de exercícios com default_id (id do paciente)
     post "/link", to: "links#create" #cria link entre terapeuta e paciente. requer token gerado pelo fisio
-    post "/serie/feedback/:serie_id", to: "feedbacks#create"
+    post "/feedback/:serie_id", to: "feedbacks#create"
+    put "/day/:status", to: "days#update" #0 para  incompleto, 1 para em progresso, 2 para completo
+    get "/feedback/:patient_id", to: "feedbacks#show" #retorna para o fisioterapeuta relatório com todos os feedbacks do usuário
     get "/links", to: "links#index"
     get "/", to: "routines#show" #fisio recebe todas as rotinas que criou, paciente recebe sua rotina com os exercícios
   end
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
     get "/index", to: "physios#show"
   end
 
-  # para não duplicar demais as exercise_series, o feedback deve ficar ligado a um routine day e carregar o id da exercise serie
+  # para não duplicar as exercise_series, o feedback deve ficar ligado a um routine day e carregar o id da exercise serie
   #TODO
 
   #PERMITIR QUE O FISIOTERAPEUTA CRIE UMA ROTINA
